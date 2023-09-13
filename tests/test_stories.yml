@@ -1,0 +1,55 @@
+#### This file contains tests to evaluate that your bot behaves as expected.
+#### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
+
+stories:
+- story: cheeseburger
+  steps:
+  - user: |
+      Hello! I would like to buy a [cheeseburger](main)
+    intent: order
+  - action: utter_send_full
+  - user: |
+      yes
+    intent: affirm
+  - action: utter_confirm
+  - action: utter_goodbye
+
+- story: burger get upgraded to cheeseburger
+  steps:
+  - user: |
+      Hello! I would like to buy a [burger](main)
+    intent: order
+  - action: utter_upgrade_burger
+  - user: |
+      yes
+    intent: affirm
+  - action: utter_confirm
+  - action: action_upgrade_burger
+  - slot_was_set:
+      - main: "cheeseburger"
+  - action: utter_send_full
+  - user: |
+      yes
+    intent: affirm
+  - action: utter_confirm
+  - action: utter_goodbye
+
+- story: burger (reject upgrade)
+  steps:
+    - user: |
+        Hello! I would like to buy a [burger](main)
+      intent: order
+    - action: utter_upgrade_burger
+    - user: |
+        yes
+      intent: affirm
+    - action: utter_confirm
+    - action: action_upgrade_burger
+    - slot_was_set:
+        - main: "cheeseburger"
+    - action: utter_send_full
+    - user: |
+        no
+      intent: deny
+    - action: utter_no_problem
+    - action: utter_goodbye

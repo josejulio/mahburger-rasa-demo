@@ -1,0 +1,45 @@
+version: '3.1'
+actions:
+- utter_send_full
+- action_upgrade_burger
+- utter_no_problem
+- utter_upgrade_burger
+- utter_goodbye
+- utter_confirm
+intents:
+- affirm
+- deny
+- order
+entities:
+- main
+slots:
+  main:
+    type: categorical
+    values:
+    - burger
+    - cheeseburger
+    mappings:
+    - type: from_entity
+      entity: main
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  - text: Hello!
+  utter_send_full:
+  - text: "I'm sending a {main} to the usual address. Is this correct?"
+  utter_confirm:
+  - text: Excellent!
+  - text: Perfect!
+  utter_no_problem:
+  - text: No worries!
+  - text: No problem!
+  utter_upgrade_burger:
+  - text: Would you like to add cheese to your burger?
+  utter_upgrade_burger_confirm:
+  - text: 'Sweet. '
+  utter_goodbye:
+  - text: Have a great day!
+  - text: Hope to see you soon!
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

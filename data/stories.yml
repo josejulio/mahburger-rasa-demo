@@ -1,0 +1,55 @@
+version: "3.1"
+
+stories:
+- story: cheeseburger
+  steps:
+    - intent: order
+      entities:
+        - main
+    - slot_was_set:
+        - main: cheeseburger
+    - action: utter_send_full
+    - checkpoint: confirm_order
+
+- story: burger gets upgraded
+  steps:
+    - intent: order
+      entities:
+        - main
+    - slot_was_set:
+        - main: burger
+    - action: utter_upgrade_burger
+    - intent: affirm
+    - action: utter_confirm
+    - action: action_upgrade_burger
+    - slot_was_set:
+        - main: cheeseburger
+    - action: utter_send_full
+    - checkpoint: confirm_order
+
+- story: regular burger
+  steps:
+    - intent: order
+      entities:
+        - main
+    - slot_was_set:
+        - main: burger
+    - action: utter_upgrade_burger
+    - intent: deny
+    - action: utter_no_problem
+    - action: utter_send_full
+    - checkpoint: confirm_order
+
+- story: Confirm order  - Yes
+  steps:
+    - checkpoint: confirm_order
+    - intent: affirm
+    - action: utter_confirm
+    - action: utter_goodbye
+
+- story: Confirm order  - No
+  steps:
+    - checkpoint: confirm_order
+    - intent: deny
+    - action: utter_no_problem
+    - action: utter_goodbye
